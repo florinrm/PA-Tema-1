@@ -6,18 +6,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.StringTokenizer;
 
 class Premiu {
-	public int jocuri, reviste;
+	public int jocuri, reviste, index;
 
-	public Premiu(int jocuri, int reviste) {
+	public Premiu(int jocuri, int reviste, int index) {
 		this.jocuri = jocuri;
 		this.reviste = reviste;
-	}
-
-	public String toString() {
-		return "Jocuri " + jocuri + " Reviste " + reviste + "\n";
+		this.index = index;
 	}
 
 	public int getJocuri() {
@@ -32,9 +28,8 @@ class Premiu {
 		return jocuri + reviste;
 	}
 
-	public boolean equals(Premiu premiu) {
-		return ((this.getReviste() == premiu.getReviste())
-				&& (this.getJocuri() == premiu.getJocuri()));
+	public int getIndex() {
+		return index;
 	}
 }
 
@@ -42,18 +37,16 @@ public class Frati {
 	public static void main(String[] args) {
 		List<Premiu> prizesForJon = new ArrayList<>();
 		List<Premiu> prizesForSam = new ArrayList<>();
-		//List<Premiu> prizesForSam = new ArrayList<>();
 		MyScanner scan = new MyScanner("frati.in");
-		// public_tests/frati/in/0.
 		int n = scan.nextInt();
 		int jon = 0, sam = 0;
 		for (int i = 0; i < n; ++i) {
 			int jocuri = scan.nextInt();
 			int reviste = scan.nextInt();
-			prizesForJon.add(new Premiu(jocuri, reviste));
-
+			Premiu lel = new Premiu(jocuri, reviste, i);
+			prizesForJon.add(lel);
+			prizesForSam.add(lel);
 		}
-		List<Premiu> prizesForSam = new ArrayList<>(prizesForJon);
 		Collections.sort(prizesForJon, new Comparator<Premiu>() {
 			public int compare(Premiu one, Premiu two) {
 				if (one.getSuma() == two.getSuma()) {
@@ -72,21 +65,22 @@ public class Frati {
 				}
 			}
 		});
-		boolean turnJon = true, turnSam = false;
-		Premiu prize;
-		while (!prizesForJon.isEmpty() && !prizesForSam.isEmpty()) {
-			if (turnJon && !prizesForJon.isEmpty()) {
-				prize = prizesForJon.remove(0);
-				jon += prize.getJocuri();
-				prizesForSam.remove(prize);
-				turnJon = false;
-				turnSam = true;
-			} else if (turnSam && !prizesForSam.isEmpty()) {
-				prize = prizesForSam.remove(0);
-				sam += prize.getReviste();
-				prizesForJon.remove(prize);
-				turnJon = true;
-				turnSam = false;
+		boolean[] visited = new boolean[n];
+		boolean turnJon = true;
+		int indexJon = 0, indexSam = 0;
+		for (int index = 0; index < n; ++index) {
+			if (index % 2 == 0) {
+				while (visited[prizesForJon.get(indexJon).getIndex()]) {
+					++indexJon;
+				}
+				visited[prizesForJon.get(indexJon).getIndex()] = true;
+				jon += prizesForJon.get(indexJon).getJocuri();
+			} else {
+				while (visited[prizesForSam.get(indexSam).getIndex()]) {
+					++indexSam;
+				}
+				visited[prizesForSam.get(indexSam).getIndex()] = true;
+				sam += prizesForSam.get(indexSam).getReviste();
 			}
 		}
 		try {
