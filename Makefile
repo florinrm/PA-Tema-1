@@ -4,14 +4,11 @@
 # ignorati
 # Makegfile intern folosit de checker
 
-all: build_verif
-
-build_verif:
-	g++ -Wall -lm -O3 ${ONLINE_JUDGE} _utils/verif.cpp -o verif
+build:
 	javac Frati.java
 	javac Ursi.java
 	javac Planificare.java
-	javac Numaratoare.java
+	g++ numaratoare.cpp -o numaratoare
 run-p1:
 	java Frati
 run-p2:
@@ -19,7 +16,7 @@ run-p2:
 run-p3:
 	java Planificare
 run-p4:
-	java Numaratoare
+	./numaratoare
 
 clean:
-	rm -f verif
+	rm -f *.class numaratoare

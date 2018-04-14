@@ -2,3 +2,66 @@ Tema 1 - Proiectarea algoritmilor
 
 Nume: Mihalache Florin-Razvan
 Grupa: 323CC
+
+Problema 1 - Frati (Java)
+
+Aici, am creat o clasa Premiu care are 3 membri: numarul de jocuri, numarul de
+reviste si indexul unui concurs (jocuri + reviste) in fisierul de intrare (de 
+care ma voi folosi la vectorul de aparitii - asta ca sa nu sterg din listele
+de concursuri - asa imi dadea TLE). La citirea din fisier, am folosit 2 liste
+(una pentru Jon, cealalta pentru Sam). Ambele liste le sortez in ordinea 
+descrescatoare a sumelor (suma = nr jocuri + nr reviste) si in caz ca dau de
+2 sume egale procedez in felul urmator: pentru Jon iau concursul cu numarul de
+jocuri mai mare, la Sam cu numarul de reviste mai mare. Apoi intr-un for 0:n-1
+ma plimb, alternativ, prin cele 2 liste. Vad cand e randul fiecarui jucator (prin
+paritatea indicelui iteratiei). Am 2 indici de pozitie pentru fiecare jucator
+pe care le folosesc in cautarea primului concurs neluat de niciunul dintre ei
+(iterand prin vectorul de aparatii pana cand dau de un concurs care nu a fost luat, 
+marcand cu true pozitia concursului in fisier daca acesta a fost luat, false 
+in caz contrar). Complexitatea temporala al algoritmului este O(n ^ 2).
+
+Problema 2 - Ursi (Java)
+
+Aici am aplicat tehnica programarii dinamice. Verific mai intai numarul de ochi
+din string. Daca numarul este impar, numarul de posibilitati este 0, altfel
+apelez functia findSol, care ia ca parametri string-ul citit din fisier si un numar
+ce reprezinta numarul de linii din matrice, un numar calculat dupa formula
+nr_de_ochi / 2 + 3 -> reprezinta numarul de zambete maxim posibil. In findSol,
+numarul de linii este lungimea string-ului + 1
+Complexitatea temporala este O(n ^ 2).
+
+
+Problema 4 - Numaratoare (C++ - avea acelasi timp ca la Java + C++ e mai rapid)
+
+Aici am facut un backtracking optimizat ca sa pot genera posibilitatile (alea care
+sunt valide, de exemplu 7 = 4 + 2 + 1 e valida, iar 7 = 4 + 1 + 2 nu e valida).
+Am o functie findSol care ia initial ca parametri suma din fisier, numarul de pozitii
+din fisier, un acumulator de suma (initial 0) si un vector care va contine numerele
+ce alcatuiesc suma data din fisier. In findSol, verific mai intai daca mai am
+de inserat elemente in vector (vad cum e numarul de pozitii care este decrementat).
+Daca numarul de pozitii de inserat e mai mic decat 2, inseamna ca am aproape am terminat
+(doar sa mai inserez un element sum - acc, sum = suma din fisier, acc = suma
+acumulata prin adunarea elementelor din vectorul de numaratoare, incrementez
+counter-ul de numaratori, ca sa vad daca ajung la index-ul cerut din fisier ->
+counter == index + 1). Daca am ajuns la indexul respectiv, afisez numaratoarea 
+in fisier si dau exit ca sa ies din program, altfel daca as folosi return se
+goleste vectorul de numaratoare si se afiseaza mereu "-" in fisierul de output.
+In continuare verific cum stau cu insertia in vectorul de numaratoare. Am o 
+variabila element care ia valoarea suma_backtrack - (poz_back - 1) (suma_backtrack
+si poz_back nu coincid mereu cu cele din fisier -> recursivitate backtracking
+optimizat pentru timp) -> am dedus formula aia din exemplul din enunt. Daca
+am inserat in vector aka am decrementat numarul de pozitii dat ca parametru
+la functia de backtrack (verificand daca acel numar NU este egal cu numarul de
+pozitii dat din fisier - suma, indexul si numarul de pozitii din fisier sunt
+membrii ai clasei Solve), element ia valoarea minimului dintre suma_backtrack
+si suma - acc - (poz_back - 1), chestie dedusa prin exemplele din tema si
+fisiere din checker. Apoi intr-un while (element > 0), daca acumulatorul
+adunat cu elementul pe care doresc sa il inserez in vector nu depaseste
+suma data din fisier, inserez elementul in vector, apelez 
+findSol(element, poz_back - 1, acc + element, vect), dand element ca parametru,
+decremetand pozitiile si adunand elementul la acumulator ca sa pot avansa in 
+insertie si cautare. Daca ies din findSol fara sa fie apelat exit-ul din
+functia de afisare al vectorului pentru numaratoare (printFileSuccess),
+vad daca vectorul este gol si in caz afirmativ apelez printFileFail, unde
+afisez "-" in fisierul de output. Complexitatea temporala al algoritmului
+este O(). 

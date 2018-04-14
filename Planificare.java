@@ -34,6 +34,7 @@ public class Planificare {
 			probe.add(proba);
 		}
 		int pierderiTotale = 0, concursuri = 0;
+		int[][] matrix = new int[numarProbe][numarProbe];
 		try {
 			PrintWriter writer = new PrintWriter("planificare.out");
 			writer.print(pierderiTotale + " " + concursuri);

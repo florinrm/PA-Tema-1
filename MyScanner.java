@@ -3,6 +3,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
+/*
+
+sursa: https://www.geeksforgeeks.org/fast-io-in-java-in-competitive-programming/
++ testele practice de la PA de pe HackerRank (am facut acolo si de acolo am luat
+clasa cu citirea)
+
+*/
 public class MyScanner {
 	BufferedReader br = null;
 	StringTokenizer st;
